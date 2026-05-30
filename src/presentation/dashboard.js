@@ -86,8 +86,8 @@ export function initDashboard(appState) {
   function startTick(startTime) {
     if (timerInterval) clearInterval(timerInterval);
     
-    const displayElement = document.getElementById('activeTimerDisplay');
     const updateTick = () => {
+      const displayElement = document.getElementById('activeTimerDisplay');
       const start = new Date(startTime);
       const elapsed = Math.floor((new Date() - start) / 1000);
       if (displayElement) {
@@ -208,9 +208,6 @@ export function initDashboard(appState) {
     if (!trackingCard) return;
 
     if (state.activeTimer) {
-      // Start real-time tick in UI
-      startTick(state.activeTimer.startTime);
-
       trackingCard.innerHTML = `
         <div class="card-body p-4 text-center">
           <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
@@ -227,6 +224,9 @@ export function initDashboard(appState) {
           </button>
         </div>
       `;
+
+      // Start real-time tick in UI (Must be after setting innerHTML so DOM node exists)
+      startTick(state.activeTimer.startTime);
 
       // Bind Stop Action
       document.getElementById('stopTimerBtn').addEventListener('click', () => {
