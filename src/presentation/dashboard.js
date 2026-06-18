@@ -42,6 +42,17 @@ function formatDateTime(isoString) {
   });
 }
 
+// Helper: Escape HTML strings to prevent attribute breakage and XSS
+function escapeHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // Helper: Get list of months present in logs (for filtering)
 function getAvailableMonths(logs) {
   const months = new Set();
@@ -146,8 +157,8 @@ export function initDashboard(appState) {
     if (state.user) {
       authContainer.innerHTML = `
         <div class="d-flex align-items-center gap-3">
-          <img src="${state.user.photoURL || 'https://via.placeholder.com/150'}" alt="${state.user.displayName}" class="avatar-img" />
-          <span class="d-none d-md-inline text-secondary small">Hello, <strong>${state.user.displayName}</strong></span>
+          <img src="${escapeHtml(state.user.photoURL || 'https://via.placeholder.com/150')}" alt="${escapeHtml(state.user.displayName)}" class="avatar-img" />
+          <span class="d-none d-md-inline text-secondary small">Hello, <strong>${escapeHtml(state.user.displayName)}</strong></span>
           <button id="logoutBtn" class="btn btn-secondary-custom btn-sm py-1 px-3">
             <i class="bi bi-box-arrow-right me-1"></i> Sign Out
           </button>
@@ -214,8 +225,8 @@ export function initDashboard(appState) {
             <span class="timer-pulse-dot"></span>
             <span class="text-danger small fw-semibold text-uppercase tracking-wider">Active Session</span>
           </div>
-          <h3 class="h4 mb-1 text-white truncate-1">${state.activeTimer.projectName}</h3>
-          <p class="text-secondary small mb-4 truncate-2">${state.activeTimer.description || 'No description provided'}</p>
+          <h3 class="h4 mb-1 text-white truncate-1">${escapeHtml(state.activeTimer.projectName)}</h3>
+          <p class="text-secondary small mb-4 truncate-2">${state.activeTimer.description ? escapeHtml(state.activeTimer.description) : 'No description provided'}</p>
           
           <div class="timer-display mb-4" id="activeTimerDisplay">00:00:00</div>
           
@@ -287,7 +298,7 @@ export function initDashboard(appState) {
     // Autocomplete datalist for Project input
     const datalist = document.getElementById('existingProjectsDatalist');
     if (datalist) {
-      datalist.innerHTML = projects.map(proj => `<option value="${proj}"></option>`).join('');
+      datalist.innerHTML = projects.map(proj => `<option value="${escapeHtml(proj)}"></option>`).join('');
     }
 
     // Filter project dropdown
@@ -295,7 +306,7 @@ export function initDashboard(appState) {
     if (projFilter && projFilter.children.length <= 1) {
       const prevVal = filters.project;
       projFilter.innerHTML = '<option value="all">All Projects</option>' + 
-        projects.map(proj => `<option value="${proj}">${proj}</option>`).join('');
+        projects.map(proj => `<option value="${escapeHtml(proj)}">${escapeHtml(proj)}</option>`).join('');
       projFilter.value = prevVal;
     }
 
@@ -311,7 +322,7 @@ export function initDashboard(appState) {
       `;
       
       availableMonths.forEach(m => {
-        html += `<option value="${m}">${formatMonthKey(m)}</option>`;
+        html += `<option value="${escapeHtml(m)}">${escapeHtml(formatMonthKey(m))}</option>`;
       });
       
       monthFilter.innerHTML = html;
@@ -484,24 +495,24 @@ export function initDashboard(appState) {
       const friendlyDuration = formatFriendlyDuration(log.duration);
       
       return `
-        <div class="log-item d-flex align-items-center justify-content-between gap-3" data-id="${log.id}">
+        <div class="log-item d-flex align-items-center justify-content-between gap-3" data-id="${escapeHtml(log.id)}">
           <div class="overflow-hidden">
             <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-              <span class="badge bg-secondary-subtle text-secondary small px-2.5 py-1 rounded-pill">${log.projectName}</span>
-              <span class="text-muted small fs-7">${formattedDate}</span>
+              <span class="badge bg-secondary-subtle text-secondary small px-2.5 py-1 rounded-pill">${escapeHtml(log.projectName)}</span>
+              <span class="text-muted small fs-7">${escapeHtml(formattedDate)}</span>
             </div>
-            <p class="text-white small mb-0 text-truncate text-break">${log.description || '<span class="text-muted font-italic">No description</span>'}</p>
+            <p class="text-white small mb-0 text-truncate text-break">${log.description ? escapeHtml(log.description) : '<span class="text-muted font-italic">No description</span>'}</p>
           </div>
           <div class="d-flex align-items-center gap-2 shrink-0">
-            <span class="fw-semibold text-success small me-1">${friendlyDuration}</span>
+            <span class="fw-semibold text-success small me-1">${escapeHtml(friendlyDuration)}</span>
             <button class="btn btn-resume-custom btn-sm resume-log-btn" 
-                    data-project="${log.projectName}" 
-                    data-description="${log.description || ''}"
+                    data-project="${escapeHtml(log.projectName)}" 
+                    data-description="${escapeHtml(log.description || '')}"
                     ${state.activeTimer ? 'disabled' : ''}
                     title="Continue working on this project">
               <i class="bi bi-play-fill"></i>
             </button>
-            <button class="btn btn-danger-custom btn-sm delete-log-btn" data-id="${log.id}" title="Delete log">
+            <button class="btn btn-danger-custom btn-sm delete-log-btn" data-id="${escapeHtml(log.id)}" title="Delete log">
               <i class="bi bi-trash"></i>
             </button>
           </div>

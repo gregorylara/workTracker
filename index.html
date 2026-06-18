@@ -1,11 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorkTracker - Track and Visualise Work Hours</title>
-    <meta name="description" content="Manage and track work hours across projects using custom local storage caching and Firebase Google Authentication." />
+    <meta name="description" content="Manage and track work hours across projects using custom local storage caching and Firebase Google Authentication.">
   </head>
   <body>
     <!-- Navigation Bar -->
@@ -28,7 +28,7 @@
 
     <!-- Syncing Screen (Loader) -->
     <div id="loaderSection" class="container d-flex flex-column align-items-center justify-content-center py-5 my-5">
-      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+      <div class="spinner-border text-primary sync-spinner" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <p class="text-secondary mt-3">Syncing session data...</p>
@@ -36,7 +36,7 @@
 
     <!-- Dashboard Main Area -->
     <main id="mainContentSection" class="container px-4 py-4 d-none">
-      
+
       <!-- Greeting and Filter scope summary -->
       <div class="d-flex align-items-baseline gap-2 mb-4">
         <h1 class="h3 fw-bold text-white mb-0">Dashboard</h1>
@@ -87,7 +87,7 @@
 
       <!-- Main Layout Columns -->
       <div class="row g-4">
-        
+
         <!-- Left Column: Timer Control Card and Chart Visualization -->
         <div class="col-lg-5">
           <!-- Active Timer Container -->
@@ -113,22 +113,21 @@
         <div class="col-lg-7">
           <div class="glass-card p-4 h-100 d-flex flex-column" id="trackingHistoryCard">
             <h5 class="h6 text-white mb-4">Tracking History</h5>
-            
+
             <!-- Filters Header Row -->
             <div class="row g-2 mb-3">
               <!-- Fulltext search input -->
               <div class="col-md-6">
                 <div class="input-group">
-                  <span class="input-group-text bg-dark border-secondary text-secondary" style="border-radius: 10px 0 0 10px; border-right: none;">
+                  <span class="input-group-text bg-dark border-secondary text-secondary search-icon-container">
                     <i class="bi bi-search"></i>
                   </span>
                   <input 
                     type="text" 
                     id="historySearchInput" 
-                    class="form-control form-control-custom" 
+                    class="form-control form-control-custom search-input-field" 
                     placeholder="Search logs..." 
-                    style="border-radius: 0 10px 10px 0; border-left: none; padding-left: 0.25rem;"
-                  />
+                  >
                 </div>
               </div>
 
@@ -149,7 +148,7 @@
             </div>
 
             <!-- List Container (Scrollable) -->
-            <div class="flex-grow-1 overflow-y-auto" style="max-height: 485px; min-height: 250px;" id="logsListContainer">
+            <div class="flex-grow-1 overflow-y-auto logs-list-scroll" id="logsListContainer">
               <!-- Time logs items dynamically loaded -->
             </div>
           </div>
@@ -158,7 +157,7 @@
     </main>
 
     <!-- Custom Resume Task Description Modal -->
-    <div class="modal fade" id="resumeDescriptionModal" tabindex="-1" aria-labelledby="resumeDescriptionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="resumeDescriptionModal" tabindex="-1" aria-labelledby="resumeDescriptionModalLabel">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content glass-card p-2">
           <div class="modal-header border-0 pb-0">

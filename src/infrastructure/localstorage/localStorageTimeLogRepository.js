@@ -1,5 +1,5 @@
-import { TimeLogRepository } from '../../domain/repositories/TimeLogRepository';
-import { TimeLog } from '../../domain/entities/TimeLog';
+import { TimeLogRepository } from '../../domain/repositories/TimeLogRepository.js';
+import { TimeLog } from '../../domain/entities/TimeLog.js';
 
 export class LocalStorageTimeLogRepository extends TimeLogRepository {
   constructor() {

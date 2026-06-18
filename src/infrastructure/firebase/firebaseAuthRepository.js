@@ -1,6 +1,6 @@
-import { AuthRepository } from '../../domain/repositories/AuthRepository';
-import { User } from '../../domain/entities/User';
-import { auth, isFirebaseConfigured } from './firebaseConfig';
+import { AuthRepository } from '../../domain/repositories/AuthRepository.js';
+import { User } from '../../domain/entities/User.js';
+import { auth, isFirebaseConfigured } from './firebaseConfig.js';
 import { 
   GoogleAuthProvider, 
   signInWithPopup, 
